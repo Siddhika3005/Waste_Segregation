@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_KEY = '4c0a127652284f7b9ddc1ab8e5422023';
+const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
 const API_URL = 'https://newsapi.org/v2/everything';
 
 export const useNews = () => {

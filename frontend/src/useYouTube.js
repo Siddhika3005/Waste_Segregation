@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const YOUTUBE_API_KEY = 'AIzaSyDHJnglkxgIMmk1VUcfuTgSw5MXjbZ5yxc';
+const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
 const YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3/search';
 
 export function useYouTube(searchQuery = 'waste segregation recycling', maxResults = 12) {

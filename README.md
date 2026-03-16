@@ -169,21 +169,20 @@ cd frontend
 npm install
 ```
 
-### **Step 4: Configure API Keys**
+### **Step 4: Configure Environment Variables**
 
-Create environment variables or update the API keys in the source files:
+Create a `.env` file in the `frontend` directory with your API keys:
 
-**NewsAPI Key:**
-```javascript
-// In useNews.js
-const API_KEY = '4c0a127652284f7b9ddc1ab8e5422023';
+```bash
+REACT_APP_NEWS_API_KEY=your_newsapi_key_here
+REACT_APP_YOUTUBE_API_KEY=your_youtube_api_key_here
 ```
 
-**YouTube API Key:**
-```javascript
-// In useYouTube.js
-const YOUTUBE_API_KEY = 'AIzaSyDHJnglkxgIMmk1VUcfuTgSw5MXjbZ5yxc';
-```
+Get your API keys from:
+- [NewsAPI.org](https://newsapi.org/) - Sign up for a free API key
+- [Google Cloud Console](https://console.cloud.google.com/) - Create a YouTube Data API v3 key
+
+**Note:** Never commit your `.env` file to version control. Add it to `.gitignore`.
 
 ### **Step 5: Start the Development Server**
 ```bash
@@ -411,11 +410,11 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Project Owner
 
-**Suryansh Agarwal**
-- GitHub: [@suryanshagarwal](https://github.com/suryanshagarwal)
-- Project Owner: [@Siddhika3005](https://github.com/Siddhika3005)
+**Siddhika Singh**
+- GitHub: [@Siddhika3005](https://github.com/Siddhika3005)
+- Repository: [Waste_Segregation](https://github.com/Siddhika3005/Waste_Segregation)
 
 ---
 
@@ -449,15 +448,16 @@ For support, email us at support@smartwaste.com or open an issue on GitHub.
 
 ## 🔄 Version History
 
-### **v1.0.0** (March 15, 2026)
-- Initial release
-- Full UI implementation
-- NewsAPI integration
-- YouTube API integration
-- Authentication system
+### **v1.0.0** (March 16, 2026)
+- Initial release with full project setup
+- React 19.2.4 frontend implementation
+- Full UI implementation with glassmorphism design
+- NewsAPI integration for waste management news
+- YouTube API integration for educational videos
+- Authentication system with persistent sessions
 - Waste analysis mock engine
-- Professional footer
-- Glassmorphism design system
+- Professional footer with social media links
+- Responsive design across all devices
 
 ---
 
