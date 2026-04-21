@@ -1,5 +1,12 @@
 # API Configuration Guide
 
+## Environment Setup
+
+### Prerequisites
+- **Windows**: Python 3.9+ with pip
+- **Windows GPU (optional)**: CUDA 11.8+ and cuDNN for GPU acceleration
+- **Alternative**: Use CPU-only TensorFlow (works on all platforms)
+
 ## Current API Setup
 
 ### 1. NewsAPI

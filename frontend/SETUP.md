@@ -9,8 +9,15 @@
 ## 🚀 Installation & Running
 
 ### 1. Navigate to Frontend Directory
+
+**Windows:**
 ```bash
-cd /Users/suryanshagarwal/Waste_Segregation/frontend
+cd path\to\Waste_Segregation\frontend
+```
+
+**macOS/Linux:**
+```bash
+cd path/to/Waste_Segregation/frontend
 ```
 
 ### 2. Install Dependencies (if not already done)

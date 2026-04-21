@@ -1,0 +1,168 @@
+# ============================================
+# Python Virtual Environments
+# ============================================
+venv/
+env/
+ENV/
+.venv
+.env
+
+# ============================================
+# Python Cache & Bytecode
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ============================================
+# Jupyter Notebook
+# ============================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+*.ipynb~
+
+# ============================================
+# ML Model Files (Large)
+# ============================================
+waste_model.h5
+waste_model.tflite
+waste_model.keras
+saved_model/
+*.pb
+*.pbtxt
+*.ckpt*
+checkpoint
+
+# ============================================
+# Dataset Folders (Large)
+# ============================================
+dataset/
+data/
+datasets/
+*.zip
+*.tar.gz
+*.rar
+
+# ============================================
+# IDE & Editor Files
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.code-workspace
+.pylintrc
+.flake8
+
+# ============================================
+# OS Files
+# ============================================
+.DS_Store
+Thumbs.db
+.netlify
+.Spotlight-V100
+.Trashes
+
+# ============================================
+# Logs & Temporary Files
+# ============================================
+*.log
+logs/
+*.tmp
+*.temp
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ============================================
+# Dependencies Lock Files (Optional)
+# ============================================
+# Uncomment if you want to track exact versions
+# pip-lock.txt
+
+# ============================================
+# Environment-specific Files
+# ============================================
+.env.local
+.env.*.local
+.env.production.local
+
+# ============================================
+# Testing
+# ============================================
+.tox/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ============================================
+# MyPy
+# ============================================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ============================================
+# TensorFlow/Keras Temporary Files
+# ============================================
+*.pb
+session_*
+events.out.tfevents.*
+
+# ============================================
+# IPython
+# ============================================
+.ipython/
+profile_default/
+ipython_config.py
+
+# ============================================
+# Poetry (if used)
+# ============================================
+poetry.lock
+
+# ============================================
+# Pipenv (if used)
+# ============================================
+Pipfile.lock
+
+# ============================================
+# Windows Specific
+# ============================================
+*.bat
+*.exe
+*.dll
+
+# ============================================
+# macOS Specific
+# ============================================
+.AppleDouble
+.LSOverride
+._*
+
+# ============================================
+# Linux Specific
+# ============================================
+.directory

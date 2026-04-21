@@ -152,6 +152,30 @@ Waste_Segregation/
 - Node.js (v14 or higher)
 - npm (v6 or higher)
 - Web browser with modern JavaScript support
+- Python 3.9+ (for backend ML model training)
+
+### **Windows-Specific Setup**
+
+If you're on Windows, follow these additional steps:
+
+1. **Install Python** (if not already installed)
+   - Download from: https://www.python.org/downloads/
+   - Ensure "Add Python to PATH" is checked during installation
+
+2. **Install TensorFlow for Windows**
+   ```bash
+   pip install tensorflow==2.16.1
+   ```
+
+3. **Backend Dependencies**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   ```
+
+4. **Optional: GPU Support (CUDA)**
+   - For faster model training, install CUDA 11.8+ and cuDNN
+   - TensorFlow will automatically detect and use GPU if available
 
 ### **Step 1: Clone the Repository**
 ```bash
@@ -159,7 +183,13 @@ git clone https://github.com/Siddhika3005/Waste_Segregation.git
 cd Waste_Segregation
 ```
 
-### **Step 2: Navigate to Frontend Directory**
+### **Step 2: Navigate to Frontend Directory (Windows)**
+```bash
+# Windows Command Prompt or PowerShell
+cd frontend
+```
+
+### **Step 2: Navigate to Frontend Directory (macOS/Linux)**
 ```bash
 cd frontend
 ```
