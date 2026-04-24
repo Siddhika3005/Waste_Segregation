@@ -4,6 +4,9 @@ import { Upload, Leaf, Trash2, TrendingUp, Home, BarChart3, CheckCircle2, AlertC
 import { useNews } from './useNews';
 import { useYouTube } from './useYouTube';
 
+// Backend API configuration
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+
 // Login Page Component
 function LoginPage({ onLogin, onSignup }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -183,11 +186,7 @@ function LoginPage({ onLogin, onSignup }) {
             </form>
           )}
 
-          <div className="demo-credentials">
-            <p><strong>Demo Credentials:</strong></p>
-            <p>Email: demo@example.com</p>
-            <p>Password: demo123</p>
-          </div>
+
         </div>
       </div>
     </div>
@@ -672,15 +671,6 @@ function App() {
 
   // Check if user is already logged in on mount
   useEffect(() => {
-    // Initialize demo user if no users exist
-    const users = localStorage.getItem('wasteUsers');
-    if (!users) {
-      const demoUsers = [
-        { name: 'Demo User', email: 'demo@example.com', password: 'demo123' }
-      ];
-      localStorage.setItem('wasteUsers', JSON.stringify(demoUsers));
-    }
-
     const cachedUser = localStorage.getItem('wasteUser');
     if (cachedUser) {
       setIsLoggedIn(true);
@@ -759,31 +749,65 @@ function App() {
     }
   };
 
-  const analyzeWaste = () => {
+  const analyzeWaste = async () => {
     if (!uploadedImage) return;
     
     setIsAnalyzing(true);
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Convert data URL to blob
+      const byteString = atob(uploadedImage.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      const blob = new Blob([ab], { type: 'image/jpeg' });
+      
+      // Create FormData
+      const formData = new FormData();
+      formData.append('file', blob, 'waste-image.jpg');
+      
+      // Call backend API
+      const apiResponse = await fetch(`${API_URL}/predict`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!apiResponse.ok) {
+        throw new Error(`API Error: ${apiResponse.status}`);
+      }
+
+      const data = await apiResponse.json();
+      
+      // Get predictions from backend
+      const allPreds = data.all_predictions || {};
+      const biodegradable = allPreds['bio-degradable'] || 0;
+      const nonBiodegradable = allPreds['non-biodegradable'] || 0;
+      
       const types = [
         {
           name: 'Biodegradable',
-          percentage: 72,
-          trustRate: 98.6,
+          percentage: Math.round(biodegradable * 100),
+          trustRate: (data.confidence * 100).toFixed(1),
           items: ['Food waste', 'Paper', 'Plant material'],
           icon: 'leaf'
         },
         {
           name: 'Non-Biodegradable',
-          percentage: 28,
-          trustRate: 97.2,
+          percentage: Math.round(nonBiodegradable * 100),
+          trustRate: ((1 - data.confidence) * 100).toFixed(1),
           items: ['Plastic', 'Metal', 'Glass'],
           icon: 'trash'
         }
       ];
+      
       setAnalysisResult(types);
       setIsAnalyzing(false);
-    }, 2000);
+    } catch (error) {
+      console.error('Analysis error:', error);
+      alert(`Analysis failed: ${error.message}\n\nMake sure the backend is running on ${API_URL}`);
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -883,43 +907,6 @@ function App() {
             </section>
 
             {/* Latest Updates Section */}
-            <section className="updates-section">
-              <div className="section-header">
-                <h2>Live Statistics</h2>
-                <p>Real-time waste segregation impact worldwide</p>
-              </div>
-              <div className="live-stats-grid">
-                <div className="live-stat-card glass">
-                  <div className="stat-value" style={{ color: '#22c55e' }}>
-                    <span className="stat-number">2.4M+</span>
-                  </div>
-                  <p className="stat-label">Waste Items Classified</p>
-                  <p className="stat-info">Global classification count</p>
-                </div>
-                <div className="live-stat-card glass">
-                  <div className="stat-value" style={{ color: '#3b82f6' }}>
-                    <span className="stat-number">98.6%</span>
-                  </div>
-                  <p className="stat-label">Average Accuracy</p>
-                  <p className="stat-info">AI detection precision</p>
-                </div>
-                <div className="live-stat-card glass">
-                  <div className="stat-value" style={{ color: '#22c55e' }}>
-                    <span className="stat-number">120K</span>
-                    <span className="stat-unit">Tons</span>
-                  </div>
-                  <p className="stat-label">CO₂ Reduced</p>
-                  <p className="stat-info">Through proper segregation</p>
-                </div>
-                <div className="live-stat-card glass">
-                  <div className="stat-value" style={{ color: '#a855f7' }}>
-                    <span className="stat-number">85K+</span>
-                  </div>
-                  <p className="stat-label">Active Users</p>
-                  <p className="stat-info">Worldwide community members</p>
-                </div>
-              </div>
-            </section>
 
             {/* News Section */}
             <HomeNewsSection />
@@ -1189,13 +1176,6 @@ function App() {
           </div>
 
           <div className="footer-bottom">
-            <div className="footer-stats">
-              <span className="stat">2.4M+ Classifications</span>
-              <span className="stat-divider">•</span>
-              <span className="stat">98.6% Accuracy</span>
-              <span className="stat-divider">•</span>
-              <span className="stat">85K+ Users</span>
-            </div>
             <div className="footer-copyright">
               <p>&copy; 2026 Smart Waste Segregation System. All rights reserved. | Made with <span style={{ color: '#ef4444' }}>♥</span> for a sustainable planet</p>
             </div>

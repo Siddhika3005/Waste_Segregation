@@ -26,11 +26,43 @@ converter = tf.lite.TFLiteConverter.from_concrete_functions(
 # Optional optimizations
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
 
-tflite_model = converter.convert()
+# Enable TF Select to support stateless random ops (from dropout layers)
+converter.target_spec.supported_ops = [
+    tf.lite.OpsSet.TFLITE_BUILTINS,
+    tf.lite.OpsSet.SELECT_TF_OPS
+]
 
-# Save file (Cross-platform compatible path)
-output_file = "waste_model.tflite"
-with open(output_file, "wb") as f:
-    f.write(tflite_model)
-
-print(f"✔ Successfully saved {output_file}")
+try:
+    tflite_model = converter.convert()
+    
+    # Save file (Cross-platform compatible path)
+    output_file = "waste_model.tflite"
+    with open(output_file, "wb") as f:
+        f.write(tflite_model)
+    
+    print(f"✔ Successfully saved {output_file}")
+    print(f"✔ TFLite model includes TF Select ops for dropout support")
+    
+except Exception as e:
+    print(f"\n❌ Conversion failed with TF Select: {str(e)}")
+    print("\nFallback: Attempting conversion without TF Select...")
+    print("Note: This may result in reduced model compatibility")
+    
+    # Try without TF Select
+    converter = tf.lite.TFLiteConverter.from_concrete_functions(
+        [concrete_func],
+        trackable_obj=model
+    )
+    converter.optimizations = [tf.lite.Optimize.DEFAULT]
+    converter.allow_custom_ops = True
+    
+    try:
+        tflite_model = converter.convert()
+        output_file = "waste_model.tflite"
+        with open(output_file, "wb") as f:
+            f.write(tflite_model)
+        print(f"✔ Successfully saved {output_file} (with custom ops)")
+    except Exception as e2:
+        print(f"❌ Fallback conversion also failed: {str(e2)}")
+        print("\n💡 Recommendation: Use the H5 model format instead (waste_model.h5)")
+        print("   The FastAPI backend will work fine with the H5 format for web deployment")
