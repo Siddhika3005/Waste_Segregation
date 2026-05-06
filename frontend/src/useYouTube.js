@@ -86,7 +86,6 @@ export function useYouTube(searchQuery = 'waste segregation recycling', maxResul
         response = await fetch(`https://cors-anywhere.herokuapp.com/${YOUTUBE_API_URL}?${params}`, {
           headers: {
             'Accept': 'application/json',
-            'Origin': 'http://localhost:3000'
           }
         });
       }
