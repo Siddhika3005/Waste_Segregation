@@ -1,13 +1,32 @@
+/* ===================================================================
+   GLOBAL STYLES - Applied to entire application
+   ===================================================================
+   
+   This file contains global CSS that affects all components:
+   - Body element styling
+   - Font definitions
+   - Base element styles
+   - Text rendering optimization
+   
+===================================================================
+*/
+
+/* ==================== BODY STYLES ==================== */
 body {
-  margin: 0;
+  margin: 0;  /* Remove default body margin */
+  /* Modern system font stack - uses the best available font for each OS */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Text rendering optimization for better visual quality */
+  -webkit-font-smoothing: antialiased;  /* Smooth fonts on iOS devices */
+  -moz-osx-font-smoothing: grayscale;  /* Smooth fonts on Firefox macOS */
 }
 
+/* ==================== CODE BLOCK STYLES ==================== */
+/* Styling for code elements (used in documentation or code display) */
 code {
+  /* Monospace font family for code display */
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }

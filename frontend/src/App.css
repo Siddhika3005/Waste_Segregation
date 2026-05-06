@@ -1,102 +1,145 @@
+/* ===================================================================
+   SMART WASTE SEGREGATION APP - MAIN STYLESHEET
+   ===================================================================
+   
+   This file contains all styling for the application including:
+   - Login/authentication pages
+   - Main dashboard and navigation
+   - Waste analysis interface
+   - Charts and statistics
+   - Responsive design for all screen sizes
+   
+   Color Scheme:
+   - Primary: Green (#22c55e) - Environmental theme
+   - Secondary: Teal (#10b981) - Complementary
+   - Background: Light blue/green gradient
+   - Text: Dark gray and white
+   
+   Design Pattern: Glassmorphism
+   - Semi-transparent background with blur effect
+   - Modern and clean UI aesthetics
+   ===================================================================
+*/
+
+/* ==================== RESET & FOUNDATION ==================== */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0;  /* Remove default margins */
+  padding: 0;  /* Remove default padding */
+  box-sizing: border-box;  /* Include padding/border in element size */
 }
 
+/* ==================== CSS CUSTOM PROPERTIES (VARIABLES) ==================== */
+/* Define reusable colors and styles for consistency */
 :root {
-  --primary-color: #22c55e;
-  --primary-light: #86efac;
-  --secondary-color: #10b981;
-  --dark-bg: #0f172a;
-  --light-bg: #e0f2fe;
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --text-light: #ffffff;
+  --primary-color: #22c55e;  /* Main green color */
+  --primary-light: #86efac;  /* Light green for accents */
+  --secondary-color: #10b981;  /* Teal accent */
+  --dark-bg: #0f172a;  /* Dark background */
+  --light-bg: #e0f2fe;  /* Light background */
+  --glass-bg: rgba(255, 255, 255, 0.1);  /* Semi-transparent white */
+  --glass-border: rgba(255, 255, 255, 0.2);  /* Semi-transparent white for borders */
+  --text-primary: #1e293b;  /* Dark text color */
+  --text-secondary: #64748b;  /* Gray text color */
+  --text-light: #ffffff;  /* White text color */
 }
 
+/* ==================== HTML/BODY STYLES ==================== */
+/* Smooth scrolling for better UX */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: smooth;  /* Smooth scroll when jumping to sections */
 }
 
+/* Default body styles */
 body {
+  /* Modern system font stack - uses the best available system font */
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;  /* Smooth text rendering on macOS */
+  -moz-osx-font-smoothing: grayscale;  /* Smooth text rendering on Firefox macOS */
 }
 
+/* ==================== APP CONTAINER ==================== */
 .App {
-  width: 100%;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #d1fae5 0%, #cffafe 50%, #dbeafe 100%);
-  position: relative;
+  width: 100%;  /* Full width */
+  min-height: 100vh;  /* Full viewport height */
+  background: linear-gradient(135deg, #d1fae5 0%, #cffafe 50%, #dbeafe 100%);  /* Beautiful gradient background */
+  position: relative;  /* For absolute positioning of child elements */
 }
 
-/* ===== LOGIN PAGE STYLES ===== */
+/* ===================================================================
+   LOGIN PAGE STYLES
+   ===================================================================
+*/
+
+/* Full screen login page container */
 .login-page {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #d1fae5 0%, #cffafe 50%, #dbeafe 100%);
-  position: relative;
-  overflow: hidden;
+  width: 100%;  /* Full width */
+  min-height: 100vh;  /* Full viewport height */
+  display: flex;  /* Flexbox layout */
+  align-items: center;  /* Vertically center content */
+  justify-content: center;  /* Horizontally center content */
+  background: linear-gradient(135deg, #d1fae5 0%, #cffafe 50%, #dbeafe 100%);  /* Gradient background */
+  position: relative;  /* For layering */
+  overflow: hidden;  /* Hide scrollbars for cleaner look */
 }
 
+/* Background decorative elements */
 .login-background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 0;
+  position: absolute;  /* Position relative to parent */
+  width: 100%;  /* Cover full width */
+  height: 100%;  /* Cover full height */
+  top: 0;  /* Top position */
+  left: 0;  /* Left position */
+  z-index: 0;  /* Behind other elements */
 }
 
+/* Main login container */
 .login-container {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: 450px;
-  padding: 2rem;
+  position: relative;  /* Relative positioning */
+  z-index: 10;  /* Above background */
+  width: 100%;  /* Full width */
+  max-width: 450px;  /* Maximum width for readability */
+  padding: 2rem;  /* Padding for mobile responsiveness */
 }
 
+/* Glass-morphic card style */
 .login-card {
-  padding: 3rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 3rem;  /* Internal padding */
+  border-radius: 20px;  /* Rounded corners */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);  /* Subtle shadow */
+  backdrop-filter: blur(15px);  /* Blur effect for glass look */
+  border: 1px solid rgba(255, 255, 255, 0.3);  /* Semi-transparent border */
 }
 
+/* Login header section */
 .login-header {
-  text-align: center;
-  margin-bottom: 2.5rem;
+  text-align: center;  /* Center alignment */
+  margin-bottom: 2.5rem;  /* Space below header */
 }
 
+/* Logo container with gradient background */
 .login-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  border-radius: 15px;
-  margin: 0 auto 1.5rem;
-  color: white;
+  display: inline-flex;  /* Flexbox layout */
+  align-items: center;  /* Center vertically */
+  justify-content: center;  /* Center horizontally */
+  width: 70px;  /* Fixed width */
+  height: 70px;  /* Fixed height (square) */
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));  /* Green gradient */
+  border-radius: 15px;  /* Rounded corners */
+  margin: 0 auto 1.5rem;  /* Center horizontally with spacing */
+  color: white;  /* Icon color */
 }
 
+/* Main heading */
 .login-header h1 {
-  font-size: 2rem;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-  font-weight: 700;
+  font-size: 2rem;  /* Large text */
+  color: var(--text-primary);  /* Dark color */
+  margin-bottom: 0.5rem;  /* Space below */
+  font-weight: 700;  /* Bold */
 }
 
+/* Subtitle text */
 .login-header p {
   color: var(--text-secondary);
   font-size: 0.95rem;

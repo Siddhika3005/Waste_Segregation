@@ -1,33 +1,104 @@
-import './App.css';
-import { useState, useEffect } from 'react';
-import { Upload, Leaf, Trash2, TrendingUp, Home, BarChart3, CheckCircle2, AlertCircle, Zap, LogOut, Eye, EyeOff, Newspaper, ExternalLink, ChevronLeft, ChevronRight, PlayCircle } from 'lucide-react';
-import { useNews } from './useNews';
-import { useYouTube } from './useYouTube';
+/*
+Smart Waste Segregation Application - Main React Component
 
-// Backend API configuration
+This is the main application file that handles:
+- User authentication (Login/Signup)
+- Waste image classification
+- Analytics dashboard
+- News and educational content
+- User account management
+
+Components:
+- LoginPage: User login and registration
+- Dashboard: Main application interface
+- WasteAnalyzer: Image upload and prediction
+- Analytics: Waste classification statistics
+- Resources: News and YouTube videos
+*/
+
+// ==================== IMPORTS ====================
+import './App.css';  // Main stylesheet
+import { useState, useEffect } from 'react';  // React hooks for state and effects
+// Import UI icons from lucide-react library
+import {
+  Upload,  // Upload icon
+  Leaf,  // Leaf icon (app logo)
+  Trash2,  // Trash icon
+  TrendingUp,  // Analytics icon
+  Home,  // Home/dashboard icon
+  BarChart3,  // Statistics icon
+  CheckCircle2,  // Success/verified icon
+  AlertCircle,  // Warning/alert icon
+  Zap,  // Lightning icon
+  LogOut,  // Logout icon
+  Eye,  // Show password icon
+  EyeOff,  // Hide password icon
+  Newspaper,  // News icon
+  ExternalLink,  // External link icon
+  ChevronLeft,  // Left arrow icon
+  ChevronRight,  // Right arrow icon
+  PlayCircle  // Play button icon
+} from 'lucide-react';
+// Custom hooks for fetching data
+import { useNews } from './useNews';  // Hook to fetch news articles
+import { useYouTube } from './useYouTube';  // Hook to fetch YouTube videos
+
+// ==================== API CONFIGURATION ====================
+// Backend API URL - loads from environment variable or defaults to localhost
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
-// Login Page Component
+// ==================== LOGIN PAGE COMPONENT ====================
+/**
+ * LoginPage - Handles user authentication
+ * Features:
+ * - Email and password login
+ * - New user registration/signup
+ * - Password visibility toggle
+ * - Form validation
+ *
+ * Props:
+ * - onLogin: Callback function when user logs in
+ * - onSignup: Callback function when user signs up
+ */
 function LoginPage({ onLogin, onSignup }) {
+  // ========== STATE VARIABLES ==========
+  // Toggle between login and signup forms
   const [isLogin, setIsLogin] = useState(true);
+  // Toggle password visibility
   const [showPassword, setShowPassword] = useState(false);
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-  const [signupName, setSignupName] = useState('');
-  const [signupEmail, setSignupEmail] = useState('');
-  const [signupPassword, setSignupPassword] = useState('');
-  const [signupConfirmPassword, setSignupConfirmPassword] = useState('');
+  
+  // ========== LOGIN FORM STATE ==========
+  const [loginEmail, setLoginEmail] = useState('');  // Email input
+  const [loginPassword, setLoginPassword] = useState('');  // Password input
+  
+  // ========== SIGNUP FORM STATE ==========
+  const [signupName, setSignupName] = useState('');  // Full name input
+  const [signupEmail, setSignupEmail] = useState('');  // Email input
+  const [signupPassword, setSignupPassword] = useState('');  // Password input
+  const [signupConfirmPassword, setSignupConfirmPassword] = useState('');  // Confirm password input
 
+  // ========== LOGIN HANDLER ==========
+  // Handle login form submission
   const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    onLogin(loginEmail, loginPassword);
+    e.preventDefault();  // Prevent default form submission
+    onLogin(loginEmail, loginPassword);  // Call parent callback with credentials
+    // Clear form fields after submission
     setLoginEmail('');
     setLoginPassword('');
   };
 
+  // ========== SIGNUP HANDLER ==========
+  // Handle signup form submission
   const handleSignupSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault();  // Prevent default form submission
+    // Validate that passwords match
+    if (signupPassword !== signupConfirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+    // Call parent callback with signup details
     onSignup(signupName, signupEmail, signupPassword, signupConfirmPassword);
+    // Clear form fields after submission
     setSignupName('');
     setSignupEmail('');
     setSignupPassword('');

@@ -1,40 +1,86 @@
-import { useState, useEffect } from 'react';
 
+/*
+UseYouTube - Custom React Hook for Fetching YouTube Videos
+
+This hook searches for waste management and environmental education videos on YouTube.
+It includes error handling and fallback sample videos for demonstration.
+
+Features:
+- Search YouTube videos using YouTube Data API
+- Pagination support (next/previous page)
+- Error handling with CORS fallback
+- Fallback sample videos if API fails
+- Filter for embeddable videos with closed captions
+
+Environment Variables:
+- REACT_APP_YOUTUBE_API_KEY: API key from Google Cloud Console
+*/
+
+// ==================== IMPORTS ====================
+import { useState, useEffect } from 'react';  // React hooks
+
+// ==================== CONFIGURATION ====================
+// YouTube API key from environment variables
 const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
+// YouTube search API endpoint
 const YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3/search';
 
+// ==================== CUSTOM HOOK ====================
+/**
+ * useYouTube - Fetch educational waste management videos from YouTube
+ *
+ * Parameters:
+ * - searchQuery: Video search query (default: 'waste segregation recycling')
+ * - maxResults: Maximum number of videos to fetch per request (default: 12)
+ *
+ * Returns:
+ * - videos: Array of video objects with metadata
+ * - loading: Boolean indicating if data is being fetched
+ * - error: Error message if fetch fails
+ * - nextPageToken: Token for fetching next page of results
+ * - prevPageToken: Token for fetching previous page of results
+ * - fetchVideos: Function to manually fetch videos with pagination
+ */
 export function useYouTube(searchQuery = 'waste segregation recycling', maxResults = 12) {
-  const [videos, setVideos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [nextPageToken, setNextPageToken] = useState(null);
-  const [prevPageToken, setPrevPageToken] = useState(null);
+  // ========== STATE VARIABLES ==========
+  const [videos, setVideos] = useState([]);  // Store fetched videos
+  const [loading, setLoading] = useState(true);  // Loading indicator
+  const [error, setError] = useState(null);  // Error message
+  const [nextPageToken, setNextPageToken] = useState(null);  // Pagination token
+  const [prevPageToken, setPrevPageToken] = useState(null);  // Pagination token
 
+  // ========== MAIN FETCH FUNCTION ==========
+  /**
+   * fetchVideos - Fetch YouTube videos with optional pagination
+   * @param {string} pageToken - Optional pagination token
+   */
   const fetchVideos = async (pageToken = null) => {
     try {
       setLoading(true);
       setError(null);
 
+      // ========== BUILD API PARAMETERS ==========
       const params = new URLSearchParams({
-        part: 'snippet',
-        q: searchQuery,
-        maxResults: maxResults,
-        type: 'video',
-        key: YOUTUBE_API_KEY,
-        order: 'relevance',
-        videoCaption: 'closedCaption',
-        videoEmbeddable: 'true',
-        ...(pageToken && { pageToken })
+        part: 'snippet',  // Get video metadata
+        q: searchQuery,  // Search query
+        maxResults: maxResults,  // Number of results
+        type: 'video',  // Only fetch videos (not channels or playlists)
+        key: YOUTUBE_API_KEY,  // API key
+        order: 'relevance',  // Sort by relevance
+        videoCaption: 'closedCaption',  // Require closed captions (accessibility)
+        videoEmbeddable: 'true',  // Only embeddable videos
+        ...(pageToken && { pageToken })  // Add pagination token if provided
       });
 
-      // Try direct API call first
+      // ========== FIRST ATTEMPT: DIRECT API CALL ==========
       let response = await fetch(`${YOUTUBE_API_URL}?${params}`, {
         headers: {
           'Accept': 'application/json',
         }
       });
       
-      // If CORS issue, try with CORS proxy
+      // ========== FALLBACK: CORS PROXY ==========
+      // If CORS error occurs, try with proxy
       if (!response.ok && response.status === 403) {
         console.log('Direct API failed, trying with CORS proxy...');
         response = await fetch(`https://cors-anywhere.herokuapp.com/${YOUTUBE_API_URL}?${params}`, {
@@ -45,28 +91,31 @@ export function useYouTube(searchQuery = 'waste segregation recycling', maxResul
         });
       }
 
+      // Check for errors
       if (!response.ok) {
         throw new Error(`YouTube API error: ${response.status} - ${response.statusText}`);
       }
 
+      // ========== PROCESS API RESPONSE ==========
       const data = await response.json();
 
       if (data.items && data.items.length > 0) {
+        // Transform API response to our video format
         const processedVideos = data.items
-          .filter(item => item.id && item.id.videoId) // Filter out invalid items
+          .filter(item => item.id && item.id.videoId)  // Filter out invalid items
           .map(item => ({
-            id: item.id.videoId,
-            title: item.snippet.title,
-            description: item.snippet.description,
-            thumbnail: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default?.url,
-            channelTitle: item.snippet.channelTitle,
-            publishedAt: item.snippet.publishedAt,
-            url: `https://www.youtube.com/watch?v=${item.id.videoId}`
+            id: item.id.videoId,  // YouTube video ID
+            title: item.snippet.title,  // Video title
+            description: item.snippet.description,  // Video description
+            thumbnail: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default?.url,  // Thumbnail image
+            channelTitle: item.snippet.channelTitle,  // Channel name
+            publishedAt: item.snippet.publishedAt,  // Publish date
+            url: `https://www.youtube.com/watch?v=${item.id.videoId}`  // Full YouTube URL
           }));
 
         setVideos(processedVideos);
-        setNextPageToken(data.nextPageToken || null);
-        setPrevPageToken(data.prevPageToken || null);
+        setNextPageToken(data.nextPageToken || null);  // Store next page token
+        setPrevPageToken(data.prevPageToken || null);  // Store previous page token
       } else {
         setError('No videos found');
       }
@@ -74,7 +123,8 @@ export function useYouTube(searchQuery = 'waste segregation recycling', maxResul
       setError(err.message);
       console.error('YouTube fetch error:', err);
       
-      // Fallback: Use sample videos for demonstration
+      // ========== FALLBACK: SAMPLE VIDEOS ==========
+      // Use sample videos for demonstration if API fails
       console.log('Using fallback sample videos...');
       setVideos(getFallbackVideos());
     } finally {
@@ -82,6 +132,11 @@ export function useYouTube(searchQuery = 'waste segregation recycling', maxResul
     }
   };
 
+  // ========== FALLBACK VIDEOS ==========
+  /**
+   * getFallbackVideos - Return sample videos for demonstration
+   * Used when YouTube API is unavailable
+   */
   const getFallbackVideos = () => {
     return [
       {

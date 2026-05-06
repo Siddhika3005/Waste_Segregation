@@ -1,41 +1,87 @@
-# -----------------------------
-# TensorFlow (Windows)
-# -----------------------------
+# ===================================================================
+# Waste Segregation Project - Backend Dependencies
+# ===================================================================
+# This file contains all Python packages required for the backend API.
+# Install with: pip install -r requirements.txt
+#
+# Python Version: 3.9 or higher recommended
+# OS: Compatible with Windows, macOS, and Linux
+# ===================================================================
+
+# ===================================================================
+# DEEP LEARNING FRAMEWORK
+# ===================================================================
+# TensorFlow: Open-source ML framework by Google
+# Used for: Loading pre-trained waste classification model
 tensorflow==2.16.1
 
-# -----------------------------
-# Correct NumPy and ml-dtypes
-# -----------------------------
+# ===================================================================
+# NUMERICAL COMPUTING
+# ===================================================================
+# NumPy: Fundamental package for numerical computing
+# Used for: Array operations, image preprocessing, model predictions
 numpy==1.26.4
+
+# ml-dtypes: Custom data types for machine learning
+# Used for: Supporting TensorFlow operations
 ml-dtypes==0.3.1
 
-# -----------------------------
-# Computer Vision + Image Processing
-# -----------------------------
-opencv-python-headless==4.7.0.72   # Safe version - DOES NOT force NumPy 2.x
+# ===================================================================
+# COMPUTER VISION & IMAGE PROCESSING
+# ===================================================================
+# OpenCV (headless): Computer vision library
+# Used for: Image manipulation, preprocessing
+# Note: headless version avoids GUI dependencies (safe for servers)
+opencv-python-headless==4.7.0.72
+
+# Pillow: Python Imaging Library
+# Used for: Loading, resizing, and converting images to RGB format
 pillow==10.4.0
+
+# scikit-image: Image processing algorithms
+# Used for: Advanced image transformations and processing
 scikit-image==0.25.2
+
+# imageio: Image and video I/O library
+# Used for: Reading/writing images in various formats
 imageio==2.37.2
 
-# -----------------------------
-# ImgAug (installed WITHOUT deps)
-# -----------------------------
+# ===================================================================
+# IMAGE AUGMENTATION
+# ===================================================================
+# ImgAug: Image augmentation library for training data
+# Used for: Data augmentation during model training (train_model.ipynb)
 imgaug==0.4.0
 
-# -----------------------------
-# Machine Learning
-# -----------------------------
+# ===================================================================
+# MACHINE LEARNING & DATA SCIENCE
+# ===================================================================
+# scikit-learn: Machine learning utilities
+# Used for: Model evaluation, metrics, utilities
 scikit-learn==1.5.2
 
-# -----------------------------
-# API Server
-# -----------------------------
+# ===================================================================
+# WEB API FRAMEWORK
+# ===================================================================
+# FastAPI: Modern web framework for building APIs
+# Used for: Creating the waste classification REST API
 fastapi==0.110.2
+
+# Uvicorn: ASGI server for running FastAPI
+# Used for: Serving the API and handling HTTP requests
 uvicorn==0.29.0
 
-# -----------------------------
-# Utilities
-# -----------------------------
+# python-multipart: Handles multipart form data
+# Used for: Processing file uploads in the /predict endpoint
 python-multipart==0.0.9
+
+# ===================================================================
+# CONFIGURATION & UTILITIES
+# ===================================================================
+# python-dotenv: Load environment variables from .env files
+# Used for: Configuration management (API host, port, model path, etc.)
 python-dotenv==1.0.0
+
+# Matplotlib: Visualization library
+# Used for: Plotting and visualizing data/results (training notebooks)
 matplotlib==3.8.4
