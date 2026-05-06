@@ -44,7 +44,7 @@ MANIFEST
 # ============================================
 # ML Model Files (Large)
 # ============================================
-waste_model.h5
+# waste_model.h5 is tracked via Git LFS (not ignored)
 waste_model.tflite
 waste_model.keras
 saved_model/
