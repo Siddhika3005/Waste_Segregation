@@ -850,29 +850,25 @@ function App() {
 
       const data = await apiResponse.json();
       
-      // Get predictions from backend
-      const allPreds = data.all_predictions || {};
-      const biodegradable = allPreds['bio-degradable'] || 0;
-      const nonBiodegradable = allPreds['non-biodegradable'] || 0;
+      // Get the winning prediction from backend
+      const prediction = data.prediction; // 'bio-degradable' or 'non-biodegradable'
+      const confidence = data.confidence;
       
-      const types = [
+      const isBio = prediction === 'bio-degradable';
+      
+      const result = [
         {
-          name: 'Biodegradable',
-          percentage: Math.round(biodegradable * 100),
-          trustRate: (data.confidence * 100).toFixed(1),
-          items: ['Food waste', 'Paper', 'Plant material'],
-          icon: 'leaf'
-        },
-        {
-          name: 'Non-Biodegradable',
-          percentage: Math.round(nonBiodegradable * 100),
-          trustRate: ((1 - data.confidence) * 100).toFixed(1),
-          items: ['Plastic', 'Metal', 'Glass'],
-          icon: 'trash'
+          name: isBio ? 'Biodegradable' : 'Non-Biodegradable',
+          percentage: Math.round(confidence * 100),
+          trustRate: (confidence * 100).toFixed(1),
+          items: isBio 
+            ? ['Food waste', 'Paper', 'Plant material'] 
+            : ['Plastic', 'Metal', 'Glass'],
+          icon: isBio ? 'leaf' : 'trash'
         }
       ];
       
-      setAnalysisResult(types);
+      setAnalysisResult(result);
       setIsAnalyzing(false);
     } catch (error) {
       console.error('Analysis error:', error);
